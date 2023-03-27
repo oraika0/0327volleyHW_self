@@ -56,6 +56,7 @@ public class MainActivity extends AppCompatActivity {
     }
     private void parsing_csvFile(){
         try {
+            System.out.println("\n");
             File file = getBaseContext().getFileStreamPath("out.csv");
             FileInputStream fstream = new FileInputStream(file);
             DataInputStream in = new DataInputStream(fstream);

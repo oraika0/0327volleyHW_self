@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
             public void onResponse(String response) {
                 Log.d("CSV",response);
                 try {
-                    FileOutputStream outfile = openFileOutput(filename, Context.MODE_APPEND);
+                    FileOutputStream outfile = openFileOutput(filename, Context.MODE_PRIVATE);
                     outfile.write(response.getBytes(StandardCharsets.UTF_8));
                     outfile.close();
                     parsing_csvFile();
@@ -74,8 +74,8 @@ public class MainActivity extends AppCompatActivity {
             String spiltBy = ",";
             int no = 0;
             boolean firstrow = true;
-           while(no != 986) {
-               line = br.readLine();
+           while((line = br.readLine()) != null) {
+
                //System.out.println(line);
                 TableRow row = new TableRow(this);
                 String[] apartment = line.split(spiltBy);

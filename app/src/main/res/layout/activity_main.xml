@@ -24,7 +24,7 @@
         android:layout_height="94dp"
         android:layout_marginTop="8dp"
         android:ems="10"
-        android:inputType="textUri"
+        android:inputType="textMultiLine"
         android:text="https://web.cs.wpi.edu/~cs1004/a16/Resources/SacramentoRealEstateTransactions.csv"
         app:layout_constraintEnd_toStartOf="@+id/button"
         app:layout_constraintHorizontal_bias="1.0"
@@ -35,6 +35,8 @@
     <HorizontalScrollView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/et">
 

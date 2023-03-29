@@ -25,7 +25,7 @@
         android:layout_marginTop="8dp"
         android:ems="10"
         android:inputType="textUri"
-        android:text="Name"
+        android:text="https://web.cs.wpi.edu/~cs1004/a16/Resources/SacramentoRealEstateTransactions.csv"
         app:layout_constraintEnd_toStartOf="@+id/button"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"

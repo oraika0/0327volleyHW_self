@@ -35,11 +35,11 @@ public class MainActivity extends AppCompatActivity {
     TableLayout tl;
     EditText et;
     String filename = "out.csv";
-    String url="https://web.cs.wpi.edu/~cs1004/a16/Resources/SacramentoRealEstateTransactions.csv";
+    //String url="https://web.cs.wpi.edu/~cs1004/a16/Resources/SacramentoRealEstateTransactions.csv";
 
     private void sendAndRequestResponse(){
         RequestQueue mRequestQueue = Volley.newRequestQueue(this);
-        StringRequest mStringRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
+        StringRequest mStringRequest = new StringRequest(Request.Method.GET, et.getText().toString(), new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 Log.d("CSV",response);
@@ -76,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
             boolean firstrow = true;
            while(no != 986) {
                line = br.readLine();
-               System.out.println(line);
+               //System.out.println(line);
                 TableRow row = new TableRow(this);
                 String[] apartment = line.split(spiltBy);
                     TextView tv1 = new TextView(this);
@@ -104,7 +104,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                 firstrow = false;
                 no++;
-                System.out.println(String.valueOf(no));
+                //System.out.println(String.valueOf(no));
                 tl.addView(row);
             }
         }catch (FileNotFoundException e) {

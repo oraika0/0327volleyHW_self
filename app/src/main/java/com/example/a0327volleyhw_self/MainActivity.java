@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -31,17 +32,17 @@ import java.nio.charset.StandardCharsets;
 
 
 public class MainActivity extends AppCompatActivity {
-    TableLayout tableLayout;
+    TableLayout tl;
     EditText et;
     String filename = "out.csv";
-    String url="https://web.cs.wpi.edu/~cs1004/a16/Resources/SacramentoRealEstateTransactions.csv\n";
+    String url="https://web.cs.wpi.edu/~cs1004/a16/Resources/SacramentoRealEstateTransactions.csv";
 
     private void sendAndRequestResponse(){
         RequestQueue mRequestQueue = Volley.newRequestQueue(this);
         StringRequest mStringRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                //  et.setText(response.toString());
+                Log.d("CSV",response);
                 try {
                     FileOutputStream outfile = openFileOutput(filename, Context.MODE_APPEND);
                     outfile.write(response.getBytes(StandardCharsets.UTF_8));
@@ -54,7 +55,9 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         }, new Response.ErrorListener() {
+            @Override
             public void onErrorResponse(VolleyError error){
+                Log.d("onErrorResponse",error.toString());
             }
         });
         mRequestQueue.add(mStringRequest);
@@ -69,26 +72,45 @@ public class MainActivity extends AppCompatActivity {
             BufferedReader br = new BufferedReader(new InputStreamReader(in));
             String line = "";
             String spiltBy = ",";
-
-            while ((line = br.readLine()) != null) {
-                String[] apartment = line.split(spiltBy);
+            int no = 0;
+            boolean firstrow = true;
+           while(no != 986) {
+               line = br.readLine();
+               System.out.println(line);
                 TableRow row = new TableRow(this);
-
-                for (int ct = 0; ct < apartment.length; ct++) {
-                    TextView tv = new TextView(this);
-                    tv.setText(apartment[ct]);
-                    row.addView(tv);
-                }
-
-                tableLayout.addView(row);
-                System.out.println("street" + apartment[0] + ", city = " + apartment[1] + ", zip = " + apartment[2] + ", state = " + apartment[3] + "beds = " + apartment[4]);
+                String[] apartment = line.split(spiltBy);
+                    TextView tv1 = new TextView(this);
+                    TextView tv2 = new TextView(this);
+                    TextView tv3 = new TextView(this);
+                    TextView tv4 = new TextView(this);
+                    if (firstrow) {
+                        tv1.setText("No. ");
+                        row.addView(tv1);
+                        tv2.setText("Address ");
+                        row.addView(tv2);
+                        tv3.setText("Type ");
+                        row.addView(tv3);
+                        tv4.setText("price ");
+                        row.addView(tv4);
+                    } else {
+                        tv1.setText(String.valueOf(no));
+                        row.addView(tv1);
+                        tv2.setText(" " +apartment[0] + "," + apartment[1] + "," + apartment[2] + "," + apartment[3]);
+                        row.addView(tv2);
+                        tv3.setText(" " +apartment[4] + "bed," + apartment[5] + " bath," + apartment[6] + "sqft");
+                        row.addView(tv3);
+                        tv4.setText(" " +"$" + apartment[9]);
+                        row.addView(tv4);
+                    }
+                firstrow = false;
+                no++;
+                System.out.println(String.valueOf(no));
+                tl.addView(row);
             }
-        } catch (FileNotFoundException e) {
+        }catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         } catch (IOException e) {
             throw new RuntimeException(e);
-        } catch (OutOfMemoryError e) {
-            throw new RuntimeException("CSV file too large to parse.", e);
         }
     }
 
@@ -97,7 +119,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        tableLayout = (TableLayout)findViewById(R.id.tl);
+        tl = findViewById(R.id.tl);
         et = (EditText)findViewById(R.id.et);
         Button button = findViewById(R.id.button);
         button.setOnClickListener(new View.OnClickListener() {
